@@ -26,6 +26,7 @@
         <service
             android:name=".util.LocationSwitcher"
             android:label="LocationSwitcher"
+            android:stopWithTask="true"
             >
         </service>
     </application>

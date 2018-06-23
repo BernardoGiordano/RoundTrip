@@ -1,9 +1,10 @@
 package it.roundtrip.util;
 
 import android.content.Context;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.widget.Toast;
 
@@ -22,9 +23,6 @@ public class MyLocationManager {
 
     public void mockLocation(final City city, final Coordinate coordinate) {
         LocationManager lm = (android.location.LocationManager)context.getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-
         String mocLocationProvider = android.location.LocationManager.GPS_PROVIDER;
 
         lm.addTestProvider(mocLocationProvider, false, false,
@@ -42,7 +40,18 @@ public class MyLocationManager {
 
         // supposing Toast.LENGTH_SHORT is ~2000ms
         for (int i = 0; i < (city.getCooldown() * 1000) / 2000; i++) {
-            Toast.makeText(context, coordinate.getName() + "... " + Integer.toString(city.getCooldown() - 2*i) + "s", Toast.LENGTH_SHORT).show();
+            final int step = i;
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(
+                new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        Toast.makeText(context, coordinate.getName() + "... " + Integer.toString(city.getCooldown() - 2*step) + "s", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            );
         }
     }
 
