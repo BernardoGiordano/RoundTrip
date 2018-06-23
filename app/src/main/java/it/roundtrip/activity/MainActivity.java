@@ -6,6 +6,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -21,6 +24,7 @@ import static it.roundtrip.util.Constants.LABEL;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Menu menu;
     private ListView cityList;
     private FloatingActionButton addCityButton;
 
@@ -29,6 +33,24 @@ public class MainActivity extends AppCompatActivity {
     private Dao dao = Dao.getInstance();
 
     private FirebaseAuth auth;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_activity_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_logout_entry:
+                auth.signOut();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

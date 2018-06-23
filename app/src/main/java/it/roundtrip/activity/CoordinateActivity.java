@@ -62,7 +62,7 @@ public class CoordinateActivity extends AppCompatActivity {
                 builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dao.deleteCity(dao.getCities().get(position).getKey());
+                        dao.deleteCoordinate(cityKey, dao.getCoordinates().get(position).getKey());
                     }
                 });
 
